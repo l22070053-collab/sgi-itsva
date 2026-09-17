@@ -46,6 +46,27 @@ class LoginController extends Controller
 
         if ($response->successful()) {
             $data = $response->json();
+            
+            
+            $permissions = $data['permissions'] ?? [];
+            $hasAdminAccess = false;
+
+            
+            foreach ($permissions as $perm) {
+                if (isset($perm['app']) && $perm['app'] === 'Bitacora-acciones-correctivas' && 
+                    isset($perm['permission']) && strtolower($perm['permission']) === 'admin') {
+                    $hasAdminAccess = true;
+                    break;
+                }
+            }
+
+            
+            if (!$hasAdminAccess) {
+                return back()
+                    ->withInput($request->only('nombre_usuario'))
+                    ->withErrors(['nombre_usuario' => 'Acceso denegado: No tienes permisos de Administrador para este módulo.']);
+            }
+            
             $request->session()->regenerate();
             $request->session()->put([
                 'access_token' => $data['access_token'] ?? null,
@@ -53,6 +74,7 @@ class LoginController extends Controller
                 'username'     => $data['username'] ?? null,
                 'permissions'  => $data['permissions'] ?? [],
             ]);
+            
             return redirect()->intended(route('dashboard'));
         }
 
