@@ -45,12 +45,14 @@
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 @forelse ($permissions as $permiso)
-                    <div class="border border-slate-200 rounded-xl p-4 flex items-center justify-between">
-                        <span class="text-slate-700 font-medium">{{ $permiso['app'] }}</span>
-                        <span class="text-xs font-semibold uppercase tracking-wide bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full">
-                            {{ $permiso['permission'] }}
-                        </span>
-                    </div>
+                    @if ($permiso['app'] === 'Bitacora-acciones-correctivas')
+                        <div class="border border-slate-200 rounded-xl p-4 flex items-center justify-between">
+                            <span class="text-slate-700 font-medium">{{ $permiso['app'] }}</span>
+                            <span class="text-xs font-semibold uppercase tracking-wide bg-indigo-100 text-indigo-700 px-2.5 py-1 rounded-full">
+                                {{ $permiso['permission'] }}
+                            </span>
+                        </div>
+                    @endif
                 @empty
                     <p class="text-slate-500 text-sm">No tienes permisos asignados.</p>
                 @endforelse
