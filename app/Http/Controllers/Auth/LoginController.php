@@ -12,14 +12,11 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    private const AUTH_API_URL = 'https://mayflower-neutron-janitor.ngrok-free.dev/dev/auth/login';
-
     public function create(Request $request): View|RedirectResponse
     {
         if ($request->session()->has('access_token')) {
             return redirect()->route('dashboard');
         }
-
         return view('auth.login');
     }
 
@@ -28,30 +25,23 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'nombre_usuario' => ['required', 'string', 'max:255'],
             'password'       => ['required', 'string'],
-        ], [
-            'nombre_usuario.required' => 'El nombre de usuario es obligatorio.',
-            'password.required'       => 'La contraseña es obligatoria.',
         ]);
 
         try {
             $response = Http::timeout(10)
                 ->connectTimeout(5)
-                ->asForm() // <-- EL SECRETO ESTÁ AQUÍ: Forzamos formato de formulario clásico
+                ->asForm()
                 ->withHeaders([
-                    'x-api-key' => 'desa2026',
-                    'Accept' => 'application/json'
+                    'x-api-key' => env('API_SGI_KEY'),
+                    'Accept'    => 'application/json'
                 ])
-                ->post(self::AUTH_API_URL, [
-                    // Enviamos tanto la versión en inglés como en español para asegurar
-                    'username'       => $credentials['nombre_usuario'], 
-                    'nombre_usuario' => $credentials['nombre_usuario'], 
+                ->post(env('API_SGI_URL'), [
+                    'username'       => $credentials['nombre_usuario'],
+                    'nombre_usuario' => $credentials['nombre_usuario'],
                     'password'       => $credentials['password'],
                 ]);
         } catch (ConnectionException $e) {
-            Log::error('SGI Auth: timeout o fallo de conexión.', ['error' => $e->getMessage()]);
-            return back()
-                ->withInput($request->only('nombre_usuario'))
-                ->withErrors(['nombre_usuario' => 'No se pudo conectar con el servidor.']);
+            return back()->withErrors(['nombre_usuario' => 'No se pudo conectar con el servidor.']);
         }
 
         if ($response->successful()) {
@@ -66,28 +56,7 @@ class LoginController extends Controller
             return redirect()->intended(route('dashboard'));
         }
 
-        if ($response->status() === 401) {
-            return back()
-                ->withInput($request->only('nombre_usuario'))
-                ->withErrors(['nombre_usuario' => 'Usuario o contraseña incorrectos.']);
-        }
-
-        // Mostrar el error crudo del servidor
-     if ($response->status() === 422) {
-         return back()
-             ->withInput($request->only('nombre_usuario'))
-             ->withErrors(['nombre_usuario' => 'Error crudo de Oscar: ' . $response->body()]);
-     }
-
-        if ($response->status() === 500) {
-            return back()
-                ->withInput($request->only('nombre_usuario'))
-                ->withErrors(['nombre_usuario' => 'El servidor de autenticación presentó un error interno.']);
-        }
-
-        return back()
-            ->withInput($request->only('nombre_usuario'))
-            ->withErrors(['nombre_usuario' => 'Respuesta inesperada del servidor (' . $response->status() . ').']);
+        return back()->withErrors(['nombre_usuario' => 'Credenciales incorrectas o error en API.']);
     }
 
     public function destroy(Request $request): RedirectResponse
@@ -96,4 +65,4 @@ class LoginController extends Controller
         $request->session()->regenerate();
         return redirect()->route('login');
     }
-}   
+}
