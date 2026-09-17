@@ -34,3 +34,15 @@ Route::middleware('auth.session')->group(function () {
 });
 
 Route::get('/', fn () => redirect()->route('login'));
+
+use App\Http\Controllers\IncidenciaController;
+use App\Http\Controllers\RacController;
+use App\Http\Controllers\RamController;
+use App\Http\Controllers\SalidaNoConformeController;
+
+Route::middleware([\App\Http\Middleware\AuthApiSession::class])->group(function (): void {
+    Route::resource('rac', RacController::class);
+    Route::resource('ram', RamController::class);
+    Route::resource('salida-no-conforme', SalidaNoConformeController::class);
+    Route::resource('incidencia', IncidenciaController::class);
+});
