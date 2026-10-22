@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [LoginController::class, 'create'])->name('login');
 
 Route::post('/login', [LoginController::class, 'store'])
-    ->middleware('throttle:5,1') // máx. 5 intentos por minuto por IP
+    ->middleware('throttle:5,1')
     ->name('login.store');
 
 Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
@@ -42,7 +42,9 @@ Route::middleware('auth.session')->group(function () {
     Route::resource('rac', RacController::class);
     Route::resource('ram', RamController::class);
     Route::resource('salida-no-conforme', SalidaNoConformeController::class);
-    Route::resource('incidencia', IncidenciaController::class);
+    Route::resource('incidencia', IncidenciaController::class)->parameters([
+        'incidencia' => 'incidencia',
+    ]);
 
 });
 
