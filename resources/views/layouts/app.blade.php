@@ -8,15 +8,22 @@
 </head>
 <body class="bg-slate-50 min-h-screen">
 
-    <!-- Menú de Navegación Global -->
     <nav class="bg-white shadow-sm border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-            <h1 class="text-lg font-bold text-slate-800">Sistema de Gestión Integral</h1>
-            
-            <div class="flex items-center space-x-6">
-                <a href="{{ route('dashboard') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">
-                    Ir al Dashboard
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <a href="{{ route('dashboard') }}" class="text-lg font-bold text-slate-800 hover:text-indigo-600 transition">
+                    Sistema de Gestión Integral
                 </a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                {{-- Solo se muestra si NO estamos en el dashboard --}}
+                @unless(request()->routeIs('dashboard'))
+                    <a href="{{ route('dashboard') }}" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition">
+                        ← Ir al Dashboard
+                    </a>
+                @endunless
+
                 <form method="POST" action="{{ route('logout') }}" class="m-0">
                     @csrf
                     <button type="submit" class="text-sm font-medium text-red-600 border border-red-200 px-3 py-1.5 rounded-lg transition hover:bg-red-50 hover:text-red-700">
@@ -27,7 +34,6 @@
         </div>
     </nav>
 
-    <!-- Aquí se inyectará el contenido de las demás vistas (RAC, RAM, etc.) -->
     <main>
         @yield('content')
     </main>

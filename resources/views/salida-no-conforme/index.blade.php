@@ -20,9 +20,19 @@
                     <h1 class="text-lg font-semibold text-gray-800">Control de Salidas No Conformes</h1>
                     <p class="mt-1 text-sm text-gray-500">Registros de salidas no conformes en el Sistema de Gestión Integral.</p>
                 </div>
-                <a href="{{ route('salida-no-conforme.create') }}" class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition">
+                <a href="{{ route('salida-no-conforme.create') }}" class="inline-flex items-center justify-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 transition">
                     Nuevo registro
                 </a>
+            </div>
+
+            <!-- BARRA DE BÚSQUEDA RÁPIDA -->
+            <div class="p-6 bg-white border-b border-gray-200 flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div class="w-full sm:w-96">
+                    <input type="text" id="buscador-tabla" placeholder="Buscar por folio, área, responsable..." class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div class="text-xs text-gray-500">
+                    Filtrado instantáneo en pantalla.
+                </div>
             </div>
 
             <div class="overflow-x-auto">
@@ -39,7 +49,7 @@
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse ($salidasNoConformes as $salida)
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-gray-50 fila-dato">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $salida->folio }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ \Carbon\Carbon::parse($salida->fecha_reporte)->format('d/m/Y') }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-600">{{ $salida->area_detectada }}</td>
@@ -61,7 +71,7 @@
                                     <div class="inline-flex items-center gap-4">
                                         <a href="{{ route('salida-no-conforme.show', $salida) }}" class="text-indigo-600 hover:text-indigo-900">Ver</a>
                                         <a href="{{ route('salida-no-conforme.edit', $salida) }}" class="text-gray-600 hover:text-gray-900">Editar</a>
-                                        <form method="POST" action="{{ route('salida-no-conforme.destroy', $salida) }}" onsubmit="return confirm('¿Desea eliminar este registro? Esta acción no se puede deshacer.');">
+                                        <form method="POST" action="{{ route('salida-no-conforme.destroy', $salida) }}" onsubmit="return confirm('¿Desea eliminar este registro?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
@@ -86,4 +96,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.getElementById('buscador-tabla').addEventListener('keyup', function() {
+        let texto = this.value.toLowerCase();
+        let filas = document.querySelectorAll('.fila-dato');
+
+        filas.forEach(function(fila) {
+            let contenido = fila.textContent.toLowerCase();
+            if (contenido.includes(texto)) {
+                fila.style.display = '';
+            } else {
+                fila.style.display = 'none';
+            }
+        });
+    });
+</script>
 @endsection
