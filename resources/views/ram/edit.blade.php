@@ -20,8 +20,15 @@
         ];
     }
     $origenActual = old('origen_accion', $ram->origen_accion);
+    $normaActual = old('norma', $ram->norma);
+    $estrategicoActual = old('proceso_estrategico', $ram->proceso_estrategico);
+    $operativoActual = old('proceso_operativo', $ram->proceso_operativo);
     $fechaElaboracion = $ram->fecha_elaboracion ? \Carbon\Carbon::parse($ram->fecha_elaboracion)->format('Y-m-d') : '';
     $fechaVerificacion = $ram->fecha_verificacion ? \Carbon\Carbon::parse($ram->fecha_verificacion)->format('Y-m-d') : '';
+
+    $catalogoNormas = ['ISO 9001:2015 (Calidad)', 'ISO 14001:2015 (Ambiental)', 'ISO 45001:2018 (Seguridad y Salud)', 'ISO 50001:2018 (Energía)', 'NMX-R-025-SCFI-2015 (Igualdad Laboral)'];
+    $catalogoEstrategicos = ['Académico', 'Planeación', 'Vinculación', 'Administración de Recursos', 'Calidad'];
+    $catalogoOperativos = ['Inscripción y Reinscripción', 'Proceso Educativo (Gestión del Curso)', 'Servicio Social', 'Residencia Profesional', 'Titulación Integral', 'Actividades Complementarias', 'Tutorías', 'Gestión de Recursos y Mantenimiento'];
 @endphp
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -80,7 +87,15 @@
 
                     <div>
                         <label for="norma" class="block text-sm font-medium text-gray-700">Norma <span class="text-red-500">*</span></label>
-                        <input type="text" name="norma" id="norma" value="{{ old('norma', $ram->norma) }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('norma') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="norma" id="norma" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('norma') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione una norma</option>
+                            @if($normaActual && !in_array($normaActual, $catalogoNormas))
+                                <option value="{{ $normaActual }}" selected>{{ $normaActual }}</option>
+                            @endif
+                            @foreach($catalogoNormas as $opcion)
+                                <option value="{{ $opcion }}" @selected($normaActual === $opcion)>{{ $opcion }}</option>
+                            @endforeach
+                        </select>
                         @error('norma')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -96,7 +111,15 @@
 
                     <div>
                         <label for="proceso_estrategico" class="block text-sm font-medium text-gray-700">Proceso estratégico <span class="text-red-500">*</span></label>
-                        <input type="text" name="proceso_estrategico" id="proceso_estrategico" value="{{ old('proceso_estrategico', $ram->proceso_estrategico) }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_estrategico') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="proceso_estrategico" id="proceso_estrategico" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_estrategico') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione un proceso estratégico</option>
+                            @if($estrategicoActual && !in_array($estrategicoActual, $catalogoEstrategicos))
+                                <option value="{{ $estrategicoActual }}" selected>{{ $estrategicoActual }}</option>
+                            @endif
+                            @foreach($catalogoEstrategicos as $opcion)
+                                <option value="{{ $opcion }}" @selected($estrategicoActual === $opcion)>{{ $opcion }}</option>
+                            @endforeach
+                        </select>
                         @error('proceso_estrategico')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -104,7 +127,15 @@
 
                     <div>
                         <label for="proceso_operativo" class="block text-sm font-medium text-gray-700">Proceso operativo <span class="text-red-500">*</span></label>
-                        <input type="text" name="proceso_operativo" id="proceso_operativo" value="{{ old('proceso_operativo', $ram->proceso_operativo) }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_operativo') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="proceso_operativo" id="proceso_operativo" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_operativo') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione un proceso operativo</option>
+                            @if($operativoActual && !in_array($operativoActual, $catalogoOperativos))
+                                <option value="{{ $operativoActual }}" selected>{{ $operativoActual }}</option>
+                            @endif
+                            @foreach($catalogoOperativos as $opcion)
+                                <option value="{{ $opcion }}" @selected($operativoActual === $opcion)>{{ $opcion }}</option>
+                            @endforeach
+                        </select>
                         @error('proceso_operativo')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror

@@ -9,6 +9,9 @@
         ];
     }
     $origenActual = old('origen_accion');
+    $normaActual = old('norma');
+    $estrategicoActual = old('proceso_estrategico');
+    $operativoActual = old('proceso_operativo');
 @endphp
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,7 +66,12 @@
 
                     <div>
                         <label for="norma" class="block text-sm font-medium text-gray-700">Norma <span class="text-red-500">*</span></label>
-                        <input type="text" name="norma" id="norma" value="{{ old('norma') }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('norma') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="norma" id="norma" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('norma') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione una norma</option>
+                            @foreach(['ISO 9001:2015 (Calidad)', 'ISO 14001:2015 (Ambiental)', 'ISO 45001:2018 (Seguridad y Salud)', 'ISO 50001:2018 (Energía)', 'NMX-R-025-SCFI-2015 (Igualdad Laboral)'] as $opcion)
+                                <option value="{{ $opcion }}" @selected($normaActual === $opcion)>{{ $opcion }}</option>
+                            @endforeach
+                        </select>
                         @error('norma')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -79,7 +87,12 @@
 
                     <div>
                         <label for="proceso_estrategico" class="block text-sm font-medium text-gray-700">Proceso estratégico <span class="text-red-500">*</span></label>
-                        <input type="text" name="proceso_estrategico" id="proceso_estrategico" value="{{ old('proceso_estrategico') }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_estrategico') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="proceso_estrategico" id="proceso_estrategico" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_estrategico') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione un proceso estratégico</option>
+                            @foreach(['Académico', 'Planeación', 'Vinculación', 'Administración de Recursos', 'Calidad'] as $opcion)
+                                <option value="{{ $opcion }}" @selected($estrategicoActual === $opcion)>{{ $opcion }}</option>
+                            @endforeach
+                        </select>
                         @error('proceso_estrategico')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -87,7 +100,12 @@
 
                     <div>
                         <label for="proceso_operativo" class="block text-sm font-medium text-gray-700">Proceso operativo <span class="text-red-500">*</span></label>
-                        <input type="text" name="proceso_operativo" id="proceso_operativo" value="{{ old('proceso_operativo') }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_operativo') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="proceso_operativo" id="proceso_operativo" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_operativo') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione un proceso operativo</option>
+                            @foreach(['Inscripción y Reinscripción', 'Proceso Educativo (Gestión del Curso)', 'Servicio Social', 'Residencia Profesional', 'Titulación Integral', 'Actividades Complementarias', 'Tutorías', 'Gestión de Recursos y Mantenimiento'] as $opcion)
+                                <option value="{{ $opcion }}" @selected($operativoActual === $opcion)>{{ $opcion }}</option>
+                            @endforeach
+                        </select>
                         @error('proceso_operativo')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror

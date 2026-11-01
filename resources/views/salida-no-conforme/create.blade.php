@@ -3,6 +3,30 @@
 @section('content')
 @php
     $estadoActual = old('estado', 'Abierto');
+    $areaActual = old('area_detectada');
+    $catalogoAreas = [
+        'Dirección General',
+        'Subdirección Académica',
+        'Subdirección de Planeación y Vinculación',
+        'Subdirección de Servicios Administrativos',
+        'División de Estudios Profesionales',
+        'Servicios Escolares',
+        'Academia de Ingeniería en Sistemas Computacionales',
+        'Academia de Ingeniería en Administración',
+        'Academia de Ingeniería Civil',
+        'Academia de Ingeniería Ambiental',
+        'Academia de Ingeniería Industrial',
+        'Academia de Ciencias Básicas',
+        'Departamento de Vinculación y Extensión',
+        'Actividades Extraescolares y Complementarias',
+        'Centro de Cómputo y Telemática',
+        'Centro de Información (Biblioteca)',
+        'Recursos Materiales y Servicios Generales',
+        'Recursos Financieros',
+        'Recursos Humanos',
+        'Planeación y Presupuesto',
+        'Coordinación del SGI / Calidad',
+    ];
 @endphp
 <div class="py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,7 +81,12 @@
 
                     <div>
                         <label for="area_detectada" class="block text-sm font-medium text-gray-700">Área donde se detectó <span class="text-red-500">*</span></label>
-                        <input type="text" name="area_detectada" id="area_detectada" value="{{ old('area_detectada') }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('area_detectada') ? 'border-red-500' : 'border-gray-300' }}">
+                        <select name="area_detectada" id="area_detectada" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('area_detectada') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione un área del ITSVA</option>
+                            @foreach ($catalogoAreas as $area)
+                                <option value="{{ $area }}" @selected($areaActual === $area)>{{ $area }}</option>
+                            @endforeach
+                        </select>
                         @error('area_detectada')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -93,7 +122,7 @@
                 <div class="p-6 space-y-6">
                     <div>
                         <label for="descripcion_falla" class="block text-sm font-medium text-gray-700">Descripción de la falla o no conformidad <span class="text-red-500">*</span></label>
-                        <textarea name="descripcion_falla" id="descripcion_falla" rows="4" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('descripcion_falla') ? 'border-red-500' : 'border-gray-300' }}">{{ old('descripcion_falla') }}</textarea>
+                        <textarea name="descripcion_falla" id="descripcion_falla" rows="4" placeholder="Describa la salida no conforme (incluya matrícula y nombre del estudiante si aplica)..." required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('descripcion_falla') ? 'border-red-500' : 'border-gray-300' }}">{{ old('descripcion_falla') }}</textarea>
                         @error('descripcion_falla')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
