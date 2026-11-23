@@ -33,6 +33,7 @@ class SalidaNoConformeController extends Controller
             'accion_inmediata' => ['nullable', 'string'],
             'responsable_reporte' => ['required', 'string', 'max:255'],
             'estado' => ['required', 'string', Rule::in(['Abierto', 'En proceso', 'Cerrado'])],
+            'proceso_operativo' => ['required', 'string', 'max:255'],
         ]);
 
         SalidaNoConforme::create($validated);
@@ -59,6 +60,7 @@ class SalidaNoConformeController extends Controller
             'accion_inmediata' => ['nullable', 'string'],
             'responsable_reporte' => ['required', 'string', 'max:255'],
             'estado' => ['required', 'string', Rule::in(['Abierto', 'En proceso', 'Cerrado'])],
+            'proceso_operativo' => ['required', 'string', 'max:255'],
         ]);
 
         $salida_no_conforme->update($validated);

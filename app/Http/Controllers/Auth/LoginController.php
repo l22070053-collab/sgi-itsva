@@ -46,12 +46,10 @@ class LoginController extends Controller
 
         if ($response->successful()) {
             $data = $response->json();
-            
-            
+
             $permissions = $data['permissions'] ?? [];
             $hasAdminAccess = false;
 
-            
             foreach ($permissions as $perm) {
                 if (isset($perm['app']) && $perm['app'] === 'Bitacora-acciones-correctivas' && 
                     isset($perm['permission']) && strtolower($perm['permission']) === 'admin') {
@@ -60,7 +58,6 @@ class LoginController extends Controller
                 }
             }
 
-            
             if (!$hasAdminAccess) {
                 return back()
                     ->withInput($request->only('nombre_usuario'))

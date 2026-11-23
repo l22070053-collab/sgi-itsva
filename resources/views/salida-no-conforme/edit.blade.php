@@ -4,7 +4,9 @@
 @php
     $estadoActual = old('estado', $salida_no_conforme->estado);
     $areaActual = old('area_detectada', $salida_no_conforme->area_detectada);
+    $procesoActual = old('proceso_operativo', $salida_no_conforme->proceso_operativo);
     $fechaReporte = $salida_no_conforme->fecha_reporte ? \Carbon\Carbon::parse($salida_no_conforme->fecha_reporte)->format('Y-m-d') : '';
+
     $catalogoAreas = [
         'Dirección General',
         'Subdirección Académica',
@@ -12,6 +14,9 @@
         'Subdirección de Servicios Administrativos',
         'División de Estudios Profesionales',
         'Servicios Escolares',
+        'Becas',
+        'Actividades Complementarias',
+        'Actividades Extraescolares',
         'Academia de Ingeniería en Sistemas Computacionales',
         'Academia de Ingeniería en Administración',
         'Academia de Ingeniería Civil',
@@ -19,7 +24,6 @@
         'Academia de Ingeniería Industrial',
         'Academia de Ciencias Básicas',
         'Departamento de Vinculación y Extensión',
-        'Actividades Extraescolares y Complementarias',
         'Centro de Cómputo y Telemática',
         'Centro de Información (Biblioteca)',
         'Recursos Materiales y Servicios Generales',
@@ -27,6 +31,18 @@
         'Recursos Humanos',
         'Planeación y Presupuesto',
         'Coordinación del SGI / Calidad',
+    ];
+
+    $catalogoProcesosOperativos = [
+        'Inscripción y Reinscripción',
+        'Proceso Educativo (Gestión del Curso)',
+        'Actividades Complementarias',
+        'Becas',
+        'Servicio Social',
+        'Residencia Profesional',
+        'Titulación Integral',
+        'Tutorías',
+        'Gestión de Recursos y Mantenimiento',
     ];
 @endphp
 <div class="py-12">
@@ -101,6 +117,22 @@
                     </div>
 
                     <div>
+                        <label for="proceso_operativo" class="block text-sm font-medium text-gray-700">Proceso operativo <span class="text-red-500">*</span></label>
+                        <select name="proceso_operativo" id="proceso_operativo" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_operativo') ? 'border-red-500' : 'border-gray-300' }}">
+                            <option value="">Seleccione un proceso operativo</option>
+                            @if($procesoActual && !in_array($procesoActual, $catalogoProcesosOperativos))
+                                <option value="{{ $procesoActual }}" selected>{{ $procesoActual }}</option>
+                            @endif
+                            @foreach ($catalogoProcesosOperativos as $proceso)
+                                <option value="{{ $proceso }}" @selected($procesoActual === $proceso)>{{ $proceso }}</option>
+                            @endforeach
+                        </select>
+                        @error('proceso_operativo')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
                         <label for="responsable_reporte" class="block text-sm font-medium text-gray-700">Responsable del reporte <span class="text-red-500">*</span></label>
                         <input type="text" name="responsable_reporte" id="responsable_reporte" value="{{ old('responsable_reporte', $salida_no_conforme->responsable_reporte) }}" required class="mt-1 block w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('responsable_reporte') ? 'border-red-500' : 'border-gray-300' }}">
                         @error('responsable_reporte')
@@ -108,7 +140,7 @@
                         @enderror
                     </div>
 
-                    <div class="md:col-span-2">
+                    <div>
                         <label for="estado" class="block text-sm font-medium text-gray-700">Estado <span class="text-red-500">*</span></label>
                         <select name="estado" id="estado" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('estado') ? 'border-red-500' : 'border-gray-300' }}">
                             <option value="">Seleccione un estado</option>

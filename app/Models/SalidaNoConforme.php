@@ -19,6 +19,7 @@ class SalidaNoConforme extends Model
         'accion_inmediata',
         'responsable_reporte',
         'estado',
+        'proceso_operativo',
     ];
 
     protected function casts(): array

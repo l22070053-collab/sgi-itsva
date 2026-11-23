@@ -6,11 +6,9 @@
     <title>SGI - ITSVA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Aumenta el tamaño base de toda la interfaz para mejor lectura */
         html {
             font-size: 18px;
         }
-        /* Hace todos los recuadros de formularios muy visibles y fáciles de distinguir */
         input[type="text"],
         input[type="date"],
         input[type="number"],
@@ -18,7 +16,7 @@
         input[type="password"],
         select,
         textarea {
-            border: 2px solid #475569 !important; /* Borde gris oscuro sólido */
+            border: 2px solid #475569 !important;
             background-color: #ffffff !important;
             color: #0f172a !important;
             font-size: 1rem !important;
@@ -28,8 +26,8 @@
         input:focus,
         select:focus,
         textarea:focus {
-            border-color: #4f46e5 !important; /* Borde azul intenso al seleccionar */
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25) !important;
+            border-color: #6E062D !important;
+            box-shadow: 0 0 0 3px rgba(110, 6, 45, 0.25) !important;
             outline: none !important;
         }
         label {
@@ -41,24 +39,29 @@
 </head>
 <body class="bg-slate-100 min-h-screen text-slate-900">
 
-    <nav class="bg-white shadow-sm border-b-2 border-slate-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-4">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('dashboard') }}" class="text-xl font-bold text-slate-800 hover:text-indigo-600 transition">
-                    Sistema de Gestión Integral
-                </a>
+    <nav class="bg-[#6E062D] text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+                <img src="{{ asset('images/logo-itsva.png') }}" alt="Logo ITSVA" class="h-12 w-auto bg-white rounded-md p-1 shadow-sm">
+                <img src="{{ asset('images/logo-itsva1.png') }}" alt="Logo Institucional" class="h-12 w-auto bg-white rounded-md p-1 shadow-sm">
+                <div class="pl-1">
+                    <a href="{{ route('dashboard') }}" class="text-xl font-bold text-white hover:text-slate-200 transition block leading-tight">
+                        Sistema de Gestión Integral
+                    </a>
+                    <span class="text-xs text-white/80 font-medium tracking-wide">TecNM Campus Valladolid</span>
+                </div>
             </div>
             
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-3">
                 @unless(request()->routeIs('dashboard'))
-                    <a href="{{ route('dashboard') }}" class="text-base font-semibold text-indigo-700 hover:text-indigo-900 transition">
+                    <a href="{{ route('dashboard') }}" class="text-sm font-semibold text-white bg-white/15 hover:bg-white/25 px-3 py-2 rounded-lg transition">
                         ← Ir al Dashboard
                     </a>
                 @endunless
 
                 <form method="POST" action="{{ route('logout') }}" class="m-0">
                     @csrf
-                    <button type="submit" class="text-base font-semibold text-red-600 border-2 border-red-300 px-4 py-1.5 rounded-lg transition hover:bg-red-50 hover:text-red-700">
+                    <button type="submit" class="text-sm font-semibold text-[#6E062D] bg-white hover:bg-slate-100 px-4 py-2 rounded-lg shadow-sm transition">
                         Cerrar sesión
                     </button>
                 </form>

@@ -13,21 +13,20 @@
             <div class="bg-slate-100 px-6 py-4 border-b border-slate-300 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 class="text-xl font-bold text-slate-800">Control de Salidas No Conformes</h1>
-                    <p class="mt-1 text-base text-slate-600">Búsqueda rápida por matrícula de estudiante, nombre, folio o área.</p>
+                    <p class="mt-1 text-base text-slate-600">Búsqueda rápida por matrícula, nombre, folio, área o proceso operativo.</p>
                 </div>
                 <a href="{{ route('salida-no-conforme.create') }}" class="inline-flex items-center justify-center px-5 py-2.5 bg-indigo-600 border border-transparent rounded-md font-bold text-sm text-white uppercase tracking-widest hover:bg-indigo-700 transition">
                     + Nuevo registro
                 </a>
             </div>
 
-            <!-- BARRA DE BÚSQUEDA POR MATRÍCULA -->
             <div class="p-6 bg-white border-b border-slate-300 flex flex-col sm:flex-row gap-4 items-center justify-between">
                 <div class="w-full sm:w-2/3">
-                    <label for="buscador-tabla" class="block mb-1">Buscar por Matrícula de Alumno, Nombre, Folio o Área:</label>
-                    <input type="text" id="buscador-tabla" placeholder="Ejemplo: 23020035, nombre del estudiante, folio o área..." class="w-full">
+                    <label for="buscador-tabla" class="block mb-1">Buscar por Matrícula, Proceso Operativo, Folio o Área:</label>
+                    <input type="text" id="buscador-tabla" placeholder="Ejemplo: 23020035, Becas, Inscripción y Reinscripción..." class="w-full">
                 </div>
                 <div class="text-sm font-medium text-slate-600">
-                    Escribe la matrícula para filtrar al instante.
+                    Escribe para filtrar al instante.
                 </div>
             </div>
 
@@ -38,6 +37,7 @@
                             <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Folio</th>
                             <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Fecha</th>
                             <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Área detectada</th>
+                            <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Proceso operativo</th>
                             <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Descripción / Alumno (Matrícula)</th>
                             <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Responsable</th>
                             <th scope="col" class="px-4 py-3 text-left text-sm font-bold text-slate-700 uppercase">Estado</th>
@@ -50,6 +50,7 @@
                                 <td class="px-4 py-4 whitespace-nowrap text-base font-bold text-slate-900">{{ $salida->folio }}</td>
                                 <td class="px-4 py-4 whitespace-nowrap text-base text-slate-700">{{ \Carbon\Carbon::parse($salida->fecha_reporte)->format('d/m/Y') }}</td>
                                 <td class="px-4 py-4 text-base text-slate-700">{{ $salida->area_detectada }}</td>
+                                <td class="px-4 py-4 text-base text-slate-700">{{ $salida->proceso_operativo ?? 'No especificado' }}</td>
                                 <td class="px-4 py-4 text-base text-slate-800 max-w-md">{{ $salida->descripcion_falla }}</td>
                                 <td class="px-4 py-4 text-base text-slate-700">{{ $salida->responsable_reporte }}</td>
                                 <td class="px-4 py-4 whitespace-nowrap text-base">
@@ -79,7 +80,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-10 text-center text-base text-slate-600">No hay salidas no conformes registradas.</td>
+                                <td colspan="8" class="px-6 py-10 text-center text-base text-slate-600">No hay salidas no conformes registradas.</td>
                             </tr>
                         @endforelse
                     </tbody>

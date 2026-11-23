@@ -44,10 +44,14 @@
                     <dd class="mt-1 text-sm text-gray-900">{{ $salida_no_conforme->area_detectada }}</dd>
                 </div>
                 <div>
+                    <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Proceso operativo</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{ $salida_no_conforme->proceso_operativo ?: 'No especificado' }}</dd>
+                </div>
+                <div>
                     <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Responsable del reporte</dt>
                     <dd class="mt-1 text-sm text-gray-900">{{ $salida_no_conforme->responsable_reporte }}</dd>
                 </div>
-                <div class="md:col-span-2">
+                <div>
                     <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</dt>
                     <dd class="mt-1 text-sm">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $badgeColor }}">
