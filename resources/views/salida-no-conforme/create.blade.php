@@ -33,15 +33,42 @@
     ];
 
     $catalogoProcesosOperativos = [
-        'Inscripción y Reinscripción',
-        'Proceso Educativo (Gestión del Curso)',
-        'Actividades Complementarias',
-        'Becas',
-        'Servicio Social',
-        'Residencia Profesional',
-        'Titulación Integral',
-        'Tutorías',
-        'Gestión de Recursos y Mantenimiento',
+        'Planeación' => [
+            'Planeación',
+            'Presupuestación',
+            'Seguimiento / Evaluación',
+        ],
+        'Administración de los Recursos' => [
+            'Gestión del Recurso Financiero',
+            'Gestión de Recursos Humanos',
+            'Gestión de Recursos Materiales',
+        ],
+        'Académico' => [
+            'Inscripción',
+            'Reinscripción',
+            'Gestión del Curso',
+            'Tutorías',
+            'Actividades complementarias',
+            'Evaluación docente',
+            'Investigación',
+            'Becas',
+            'Academias',
+            'Residencia Profesional',
+            'Titulación',
+        ],
+        'Vinculación' => [
+            'Promoción de la oferta educativa',
+            'Visitas a Empresas',
+            'Actividades extraescolares',
+            'Servicio Social',
+            'Emprendedurismo e incubación de empresas',
+            'Seguimiento de Egresados',
+        ],
+        'Innovación y Calidad' => [
+            'Planificación del Sistema de Gestión Integral',
+            'Implementación del SGI',
+            'Seguimiento y evaluación del SGI',
+        ],
     ];
 @endphp
 <div class="py-12">
@@ -112,8 +139,12 @@
                         <label for="proceso_operativo" class="block text-sm font-medium text-gray-700">Proceso operativo <span class="text-red-500">*</span></label>
                         <select name="proceso_operativo" id="proceso_operativo" required class="mt-1 block w-full rounded-md border bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 {{ $errors->has('proceso_operativo') ? 'border-red-500' : 'border-gray-300' }}">
                             <option value="">Seleccione un proceso operativo</option>
-                            @foreach ($catalogoProcesosOperativos as $proceso)
-                                <option value="{{ $proceso }}" @selected($procesoActual === $proceso)>{{ $proceso }}</option>
+                            @foreach ($catalogoProcesosOperativos as $procesoEstrategico => $procesos)
+                                <optgroup label="{{ $procesoEstrategico }}">
+                                    @foreach ($procesos as $proceso)
+                                        <option value="{{ $proceso }}" @selected($procesoActual === $proceso)>{{ $proceso }}</option>
+                                    @endforeach
+                                </optgroup>
                             @endforeach
                         </select>
                         @error('proceso_operativo')

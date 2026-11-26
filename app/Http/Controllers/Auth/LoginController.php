@@ -56,6 +56,8 @@ class LoginController extends Controller
                     $hasAdminAccess = true;
                     break;
                 }
+                
+            
             }
 
             if (!$hasAdminAccess) {
